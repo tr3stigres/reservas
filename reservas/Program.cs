@@ -77,7 +77,7 @@ class Program
                 return;
             }
 
-            if (preu < 1 || preu > 10000)
+            if (preu < 0 || preu > 10000)
             {
                 Console.WriteLine("El preu ha de ser entre 1 i 10000");
                 return;
