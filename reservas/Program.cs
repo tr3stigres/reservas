@@ -2,7 +2,7 @@
 
 class Program
 {
-    public static async Task Main()
+    public static void Main()
     {
         Iniciar();
     }
