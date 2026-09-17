@@ -1,4 +1,5 @@
-﻿using static System.Net.Mime.MediaTypeNames;
+﻿using System.Globalization;
+using static System.Net.Mime.MediaTypeNames;
 
 class Program
 {
@@ -9,6 +10,9 @@ class Program
 
     static void Iniciar()
     {
+
+        var cultura = CultureInfo.GetCultureInfo("es-ES");
+
         //control edat
         Console.Write("Quina es l'edat del grup? ");
         string? edatConsola = Console.ReadLine();
@@ -66,13 +70,14 @@ class Program
 
         if (preuConsola != null)
         {
-            if (!decimal.TryParse(preuConsola, out preu))
+
+            if (!decimal.TryParse(preuConsola, NumberStyles.Number, cultura, out preu))
             {
                 Console.WriteLine("El preu ha de ser un número decimal");
                 return;
             }
 
-            if (preu < 1 || preu >= 10000)
+            if (preu < 1 || preu > 10000)
             {
                 Console.WriteLine("El preu ha de ser entre 1 i 10000");
                 return;
