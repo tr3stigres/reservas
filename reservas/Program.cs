@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using static System.Net.Mime.MediaTypeNames;
-
-class Program
+﻿class Program
 {
     public static void Main()
     {
@@ -11,84 +8,69 @@ class Program
     static void Iniciar()
     {
 
-        var cultura = CultureInfo.GetCultureInfo("es-ES");
-
         //control edat
-        Console.Write("Quina es l'edat del grup? ");
-        string? edatConsola = Console.ReadLine();
+        bool repetirPregunta = true;
         int edat = 0;
-
-        if (edatConsola != null)
+        while (repetirPregunta)
         {
+            Console.Write("Quina es l'edat del grup? ");
+            string? edatConsola = Console.ReadLine();
             if (!int.TryParse(edatConsola, out edat))
             {
                 Console.WriteLine("L'edat ha de ser un número sencer");
-                return;
             }
-
-            if (edat<0 || edat >120)
+            else if (edat < 0 || edat > 120)
             {
                 Console.WriteLine("L'edat ha de ser un número sencer entre 0 i 120");
-                return;
             }
-        }
-        else
-        {
-            Console.WriteLine("Error desconegut");
-            return;
+            else
+            {
+                repetirPregunta = false;
+            }
         }
 
         //control quantitat
-        Console.Write("Quina es la quantitat de persones? ");
-        string? quantitatConsola = Console.ReadLine();
+        repetirPregunta = true;
         int quantitat = 0;
-
-        if (quantitatConsola != null)
+        while (repetirPregunta)
         {
+            Console.Write("Quina es la quantitat de persones? ");
+            string? quantitatConsola = Console.ReadLine();
             if (!int.TryParse(quantitatConsola, out quantitat))
             {
                 Console.WriteLine("La quantitat ha de ser un número sencer");
-                return;
             }
-
-            if (quantitat < 1 || quantitat > 100)
+            else if (quantitat < 1 || quantitat > 100)
             {
                 Console.WriteLine("La quantitat ha de ser un número sencer entre 1 i 100");
-                return;
+            }
+            else
+            {
+                repetirPregunta = false;
             }
         }
-        else
-        {
-            Console.WriteLine("Error desconegut");
-            return;
-        }
 
-        //preu per persona
-        Console.Write("Quin es el preu per persona? ");
-        string? preuConsola = Console.ReadLine();
+        //control preu per persona
+        repetirPregunta = true;
         decimal preu = 0;
-
-        if (preuConsola != null)
+        while (repetirPregunta)
         {
-
-            if (!decimal.TryParse(preuConsola, NumberStyles.Number, cultura, out preu))
+            Console.Write("Quin es el preu per persona? ");
+            string? preuConsola = Console.ReadLine();
+            if (!decimal.TryParse(preuConsola, out preu))
             {
                 Console.WriteLine("El preu ha de ser un número decimal");
-                return;
             }
-
-            if (preu < 0 || preu > 10000)
+            else if (preu < 0 || preu > 10000)
             {
-                Console.WriteLine("El preu ha de ser entre 1 i 10000");
-                return;
+                Console.WriteLine("El preu ha de ser un número decimal entre 0 i 10000");
+            }
+            else
+            {
+                repetirPregunta = false;
             }
         }
-        else
-        {
-            Console.WriteLine("Error desconegut");
-            return;
-        }
-
+        
         //promoció
         Console.Write("Si la teniu introduiu la vostra promoció: ");
         string? promoConsola = Console.ReadLine() ?? "";
