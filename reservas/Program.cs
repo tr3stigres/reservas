@@ -107,11 +107,7 @@
             preuFinal = preuFinal - (preuFinal * ((decimal)promo / 100));
 
         //mostrar preu
-        Console.WriteLine($"El preu a pagar es de : {preuFinal}");
-
-
+        Console.WriteLine($"El preu a pagar es de : {preuFinal:F2}");
     }
-
-    
 
 }
