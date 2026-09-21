@@ -1,96 +1,79 @@
 ﻿class Program
 {
     public static void Main()
-    {
-        Iniciar();
+    {        
+        int edat = PreguntaInt("Quina es l'edat del grup?", 0, 120);
+        int quantitat = PreguntaInt("Quina es la quantitat de persones?", 1, 100);
+        decimal preu = DemanarPreuXPersona();
+        string promoConsola = DemanarPromocio();
+        decimal preuFinal = CalculPreu(edat, quantitat, preu, promoConsola);
+        MostrarPreu(preuFinal);
     }
 
-    static void Iniciar()
+    static int PreguntaInt(string pregunta, int minim, int maxim)
     {
+        int resultat = 0;
 
-        //control edat
-        bool repetirPregunta = true;
-        int edat = 0;
-        while (repetirPregunta)
+        do
         {
-            Console.Write("Quina es l'edat del grup? ");
-            string? edatConsola = Console.ReadLine();
-            if (!int.TryParse(edatConsola, out edat))
+            Console.Write($"{pregunta} ");
+            string? resposta = Console.ReadLine();
+            if (!int.TryParse(resposta, out resultat))
             {
-                Console.WriteLine("L'edat ha de ser un número sencer");
+                Console.WriteLine("La resposta ha de ser un número sencer");
+                continue;
             }
-            else if (edat < 0 || edat > 120)
+            else if (resultat < minim || resultat > maxim)
             {
-                Console.WriteLine("L'edat ha de ser un número sencer entre 0 i 120");
+                Console.WriteLine($"L'edat ha de ser un número sencer entre {minim} i {maxim}");
+                continue;
             }
-            else
-            {
-                repetirPregunta = false;
-            }
-        }
 
-        //control quantitat
-        repetirPregunta = true;
-        int quantitat = 0;
-        while (repetirPregunta)
-        {
-            Console.Write("Quina es la quantitat de persones? ");
-            string? quantitatConsola = Console.ReadLine();
-            if (!int.TryParse(quantitatConsola, out quantitat))
-            {
-                Console.WriteLine("La quantitat ha de ser un número sencer");
-            }
-            else if (quantitat < 1 || quantitat > 100)
-            {
-                Console.WriteLine("La quantitat ha de ser un número sencer entre 1 i 100");
-            }
-            else
-            {
-                repetirPregunta = false;
-            }
-        }
+            break;
 
-        //control preu per persona
-        repetirPregunta = true;
+        } while (true);
+
+        return resultat;
+    }
+
+    static decimal DemanarPreuXPersona()
+    {
         decimal preu = 0;
-        while (repetirPregunta)
+        do
         {
             Console.Write("Quin es el preu per persona? ");
             string? preuConsola = Console.ReadLine();
             if (!decimal.TryParse(preuConsola, out preu))
             {
                 Console.WriteLine("El preu ha de ser un número decimal");
+                continue;
             }
             else if (preu < 0 || preu > 10000)
             {
                 Console.WriteLine("El preu ha de ser un número decimal entre 0 i 10000");
+                continue;
             }
-            else
-            {
-                repetirPregunta = false;
-            }
-        }
-        
-        //promoció
+            break;
+
+        } while (true);
+
+        return preu;
+    }
+
+    static string DemanarPromocio()
+    {
         Console.Write("Si la teniu introduiu la vostra promoció: ");
-        string? promoConsola = Console.ReadLine() ?? "";
-        int? promo = null;
+        string? promoConsola = Console.ReadLine() ?? "";        
 
-        if (promoConsola != null)
-        {
-            promo =  promoConsola.Trim().ToUpper() switch
-            {
-                "VERANO" => 5,
-                _ => 0
-            };
+        if (promoConsola == null)
+            return "";
+        
+        return promoConsola;
+    }
 
-        }
-        else
-        {
-            Console.WriteLine("Error desconegut");
-            return;
-        }
-
+    static decimal CalculPreu(int edat, int quantitat, decimal preu, string promoConsola)
+    {
+        
         //càlcul del preu base
         decimal preuFinal = preu * quantitat;
 
@@ -103,10 +86,20 @@
             preuFinal = preuFinal - (preuFinal * 0.10m);
 
         //Si hi ha promo s'aplica el descompte corresponent
+        int promo = promoConsola.Trim().ToUpper() switch
+        {
+            "VERANO" => 5,
+            _ => 0
+        };
         if (promo > 0)
             preuFinal = preuFinal - (preuFinal * ((decimal)promo / 100));
 
-        //mostrar preu
+        return preuFinal;
+
+    }
+
+    static void MostrarPreu(decimal preuFinal)
+    {
         Console.WriteLine($"El preu a pagar es de : {preuFinal:F2}");
     }
 
